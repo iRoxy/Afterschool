@@ -131,6 +131,7 @@ public class Game
 			{
 				System.out.print(line);
 			}
+			bfread.close();
 		} 
 		
 		catch (IOException e) 
