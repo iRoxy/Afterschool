@@ -1,8 +1,7 @@
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Set;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 /**
  * @author Raquel Lawrence
@@ -12,7 +11,9 @@ public class Puzzle
 {
 	
 	private String puzzle;
-	private Map<String, String> puzzles;
+	private String answer;
+	//private Map<String, String> puzzles;
+	private List<ArrayList<Puzzle>> puzzles;
 	
 	
 	/**Method: empty Puzzle constructor
@@ -20,7 +21,7 @@ public class Puzzle
 	 */
 	public Puzzle()
 	{
-		puzzles = puzzles();
+		this.puzzles = test();
 	}
 	
 	
@@ -28,32 +29,57 @@ public class Puzzle
 	 * Puzzle constructor that creates a puzzle object with a riddle
 	 * @param puzzle
 	 */
-	public Puzzle(String riddle) 
+	public Puzzle(String riddle, String answer) 
 	{
 		this.puzzle = riddle;
+		this.answer = answer;
 		
 	}
 	
 	
-	/**Method: puzzles
-	 * creates a map of puzzles with riddles as the keys
-	 * and answers as the values. Used to initialize instance
-	 * variable
-	 */
-	private Map<String, String> puzzles()
+	public List<ArrayList<Puzzle>> test()
 	{
-		Map<String, String> puzzle = new HashMap<String, String>();
-		puzzle.put("Here is a puzzle", "1");
-		puzzle.put("Here is a puzzle", "2");
-		puzzle.put("Here is a puzzle", "2");
-		puzzle.put("Here is a puzzle", "4");
-		puzzle.put("Here is a puzzle", "5");
-		puzzle.put("Here is a puzzle", "6");
+		List<ArrayList<Puzzle>> list = new ArrayList<ArrayList<Puzzle>>();
+		List<Puzzle> puz = new ArrayList<Puzzle>();
+		puz.add(new Puzzle("Here is a puzzle1", "1"));
+		puz.add(new Puzzle("Here is a puzzle2", "2"));
+		puz.add(new Puzzle("Here is a puzzle3", "3"));
+		puz.add(new Puzzle("Here is a puzzle4", "4"));
+		puz.add(new Puzzle("Here is a puzzle5", "5"));
+		puz.add(new Puzzle("Here is a puzzle6", "6"));
+		list.add((ArrayList<Puzzle>) puz);
 		
-		return puzzle;
+		
+		return list; 
 	}
 	
 	
+	
+	
+	public String getAnswer() 
+	{
+		return answer;
+	}
+
+
+	public void setAnswer(String answer) 
+	{
+		this.answer = answer;
+	}
+
+
+	public List<ArrayList<Puzzle>> getPuzzles() 
+	{
+		return puzzles;
+	}
+
+
+	public void setPuzzles(List<ArrayList<Puzzle>> puzzles) 
+	{
+		this.puzzles = puzzles;
+	}
+
+
 	/**Method: getPuzzle
 	 * Retrieves a puzzle object
 	 * @return String - the riddle/puzzle
@@ -73,26 +99,8 @@ public class Puzzle
 		this.puzzle = puzzle;
 	}
 
-	
-	/**Method: getPuzzles
-	 * Retrieves a map of puzzles
-	 * @return
-	 */
-	public Map<String, String> getPuzzles() 
-	{
-		return puzzles;
-	}
 
-	
-	/**Method: setPuzzles
-	 * Sets a map of puzzles
-	 * @param puzzles
-	 */
-	public void setPuzzles(Map<String, String> puzzles) 
-	{
-		this.puzzles = puzzles;
-	}
-	
+
 	
 	/**Method: hashcode
 	 * Creates hashcodes for puzzle objects
@@ -144,18 +152,22 @@ public class Puzzle
 	 * @param answer
  	 * @return turns whether answer is correct
  	 */
-	private boolean checkAnswer(String answer)
+	private boolean checkAnswer(String puz,String answer)
 	{
-		boolean isCorrect;
-		if(puzzles.containsValue(answer))
+		boolean isCorrect = false;
+	
+		for(int i = 0; i < puzzles.get(0).size(); i++)
 		{
-			isCorrect = true;
+			Puzzle puzzle = puzzles.get(0).get(i);
+			if(puzzle.getPuzzle().equalsIgnoreCase(puz))
+			{
+				if(puzzle.getAnswer().equalsIgnoreCase(answer))
+				{
+					isCorrect = true;
+				}
+			}
 		}
 		
-		else
-		{
-			isCorrect = false;
-		}
 		return isCorrect;
 	}
 	
@@ -163,30 +175,31 @@ public class Puzzle
 	 * This method prints a riddle and takes answer from the user
 	 * and then removes that riddle from the map of puzzles
 	 */
-	public void giveRiddle()
+	public void giveRiddle(Puzzle p)
 	{
-		Iterator<Map.Entry<String, String>> iterator = puzzles.entrySet().iterator() ;
+		List<ArrayList<Puzzle>> list = p.getPuzzles();
+		Random rand = new Random();
+		int num = rand.nextInt(6);
+		System.out.println(list.size());
 		
-		if(iterator.hasNext())
+		ArrayList<Puzzle> puz = list.get(0);
+		String puzzle = puz.get(num).getPuzzle();
+		System.out.println(puzzle);
+	
+		System.out.println("Please type in your answer: ");
+		String answer1 = FileIO.readIn();
+		
+		if(checkAnswer(puzzle, answer1))
 		{
-			Map.Entry<String, String> std = iterator.next();
-			//System.out.println(puzzles.size());
-			String key = std.getKey();
-			System.out.println("Here is your riddle: " + key);
-			//String answer = std.getValue();
-			String line = FileIO.readIn();
-			if(checkAnswer(line))
-			{
-				puzzles.remove(key);
-				System.out.println(puzzles.size());
-			}
-			
-			else
-			{
-				System.out.println("I'm sorry, your answer was incorrect! Please try again");
-			}
-				
+			System.out.println("Your answer was correct!!");
+			puz.remove(num);
 		}
 		
+		else
+		{
+			System.out.println("Your answer is not correct!");
+		}
+
 	}
+	
 }
