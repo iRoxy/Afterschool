@@ -97,7 +97,7 @@ public class Game
 	 */
 	public void exitGame()
 	{
-		
+		System.exit(0);	
 	}
 	
 	/**Method: saveGame
