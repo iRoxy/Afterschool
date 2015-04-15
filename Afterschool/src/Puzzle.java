@@ -1,4 +1,3 @@
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -21,7 +20,7 @@ public class Puzzle
 	 */
 	public Puzzle()
 	{
-		this.puzzles = test();
+		this.puzzles = createPuzzles();
 	}
 	
 	
@@ -37,7 +36,12 @@ public class Puzzle
 	}
 	
 	
-	public List<ArrayList<Puzzle>> test()
+	/**Method: createPuzzles
+	 * This method creates a list of puzzles and 
+	 * adds them to an arraylist within a list
+	 * @return an list of arraylists of puzzles
+	 */
+	public List<ArrayList<Puzzle>> createPuzzles()
 	{
 		List<ArrayList<Puzzle>> list = new ArrayList<ArrayList<Puzzle>>();
 		List<Puzzle> puz = new ArrayList<Puzzle>();
@@ -55,25 +59,40 @@ public class Puzzle
 	
 	
 	
-	
+	/**Method: getAnswer
+	 * This method retrieves the answer to a puzzle
+	 * @return the answer as string
+	 */
 	public String getAnswer() 
 	{
 		return answer;
 	}
 
 
+	/**Method: setAnswer
+	 * This method sets the answer
+	 * @param answer
+	 */
 	public void setAnswer(String answer) 
 	{
 		this.answer = answer;
 	}
 
-
+	/**Method: getPuzzles
+	 * This method retrieves a list of arraylist of
+	 * puzzles
+	 * @return arraylists within a list
+	 */
 	public List<ArrayList<Puzzle>> getPuzzles() 
 	{
 		return puzzles;
 	}
 
-
+	
+	/**Method: setPuzzles
+	 * This method sets the arraylist within a list
+	 * @param puzzles
+	 */
 	public void setPuzzles(List<ArrayList<Puzzle>> puzzles) 
 	{
 		this.puzzles = puzzles;
