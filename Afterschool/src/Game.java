@@ -37,9 +37,9 @@ public class Game
 	}
 	
 	
-	/**
-	 * 
-	 * @return
+	/**Method: getWriter
+	 * Retrieves the FileWriter
+	 * @return fileWriter
 	 */
 	public FileWriter getWriter() 
 	{
@@ -47,8 +47,8 @@ public class Game
 	}
 
 
-	/**
-	 * 
+	/**Method: setWriter()
+	 * Sets FileWriter
 	 * @param writer
 	 */
 	public void setWriter(FileWriter writer) 
@@ -57,9 +57,9 @@ public class Game
 	}
 
 
-	/**
-	 * 
-	 * @return
+	/**Method: getSaveFile
+	 * Retrieves a text file
+	 * @return a file
 	 */
 	public File getSaveFile() 
 	{
@@ -67,8 +67,8 @@ public class Game
 	}
 
 
-	/**
-	 * 
+	/**Method: setSaveFile
+	 * Sets a file
 	 * @param saveFile
 	 */
 	public void setSaveFile(File saveFile) 
@@ -97,7 +97,7 @@ public class Game
 	 */
 	public void exitGame()
 	{
-		System.exit(0);	
+		System.exit(0);
 	}
 	
 	/**Method: saveGame
@@ -142,4 +142,3 @@ public class Game
 	}
 
 }
-
