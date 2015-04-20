@@ -9,6 +9,8 @@ import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.io.IOException;
 
+import javax.sound.sampled.Line;
+
 public class Game
 {
 	private FileWriter writer;
@@ -140,5 +142,37 @@ public class Game
 			e.printStackTrace();
 		}
 	}
+	
+	//method that continuously gets called within a loop that 
+	//asks for user input 
+	public void input()
+	{
+		String input = FileIO.readIn();
+		
+		checkForDirection(input);
+	}
+	
+	
+	//Without roadblocks, without checks. Where user can freely
+	//proceed through 
+	private void checkForDirection(String line)
+	{
+		if(line.equalsIgnoreCase("next"))
+		{
+			System.out.println("Hey, you're going forward");
+		}
+		
+		if(line.equalsIgnoreCase("back"))
+		{
+			System.out.println("Hey, you're going back");
+		}
+		
+		if(line.equalsIgnoreCase("search"))
+		{
+			System.out.println("Hey, you're searching");
+		}
+		
+	}
 
 }
+
