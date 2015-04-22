@@ -8,13 +8,14 @@ import java.util.Random;
 
 public class Puzzle 
 {
-	
+
 	private String puzzle;
 	private String answer;
 	//private Map<String, String> puzzles;
-	private List<ArrayList<Puzzle>> puzzles;
-	
-	
+	private static List<ArrayList<Puzzle>> puzzles;
+
+
+
 	/**Method: empty Puzzle constructor
 	 * Empty puzzle constructor
 	 */
@@ -22,8 +23,8 @@ public class Puzzle
 	{
 		this.puzzles = createPuzzles();
 	}
-	
-	
+
+
 	/**Method: Puzzle constructor with parameters 
 	 * Puzzle constructor that creates a puzzle object with a riddle
 	 * @param puzzle
@@ -32,10 +33,10 @@ public class Puzzle
 	{
 		this.puzzle = riddle;
 		this.answer = answer;
-		
+
 	}
-	
-	
+
+
 	/**Method: createPuzzles
 	 * This method creates a list of puzzles and 
 	 * adds them to an arraylist within a list
@@ -52,13 +53,13 @@ public class Puzzle
 		puz.add(new Puzzle("Here is a puzzle5", "5"));
 		puz.add(new Puzzle("Here is a puzzle6", "6"));
 		list.add((ArrayList<Puzzle>) puz);
-		
-		
+
+
 		return list; 
 	}
-	
-	
-	
+
+
+
 	/**Method: getAnswer
 	 * This method retrieves the answer to a puzzle
 	 * @return the answer as string
@@ -88,8 +89,8 @@ public class Puzzle
 		return puzzles;
 	}
 
-	
-	/**Method: setPuzzles
+
+	/**
 	 * This method sets the arraylist within a list
 	 * @param puzzles
 	 */
@@ -108,7 +109,7 @@ public class Puzzle
 		return puzzle;
 	}
 
-	
+
 	/**Method: setPuzzle
 	 * Sets the riddle/puzzle
 	 * @param puzzle
@@ -120,7 +121,7 @@ public class Puzzle
 
 
 
-	
+
 	/**Method: hashcode
 	 * Creates hashcodes for puzzle objects
 	 */
@@ -160,7 +161,7 @@ public class Puzzle
 			if (other.puzzles != null)
 				return false;
 		} 
-		
+
 		else if (!puzzles.equals(other.puzzles))
 			return false;
 		return true;
@@ -169,12 +170,12 @@ public class Puzzle
 	/**Method: checkAnswer
 	 * This code checks the the answer given by the user
 	 * @param answer
- 	 * @return turns whether answer is correct
- 	 */
-	private boolean checkAnswer(String puz,String answer)
+	 * @return turns whether answer is correct
+	 */
+	private static boolean checkAnswer(String puz,String answer)
 	{
 		boolean isCorrect = false;
-	
+
 		for(int i = 0; i < puzzles.get(0).size(); i++)
 		{
 			Puzzle puzzle = puzzles.get(0).get(i);
@@ -186,39 +187,43 @@ public class Puzzle
 				}
 			}
 		}
-		
+
 		return isCorrect;
 	}
-	
+
 	/**Method: giveRiddle
 	 * This method prints a riddle and takes answer from the user
 	 * and then removes that riddle from the map of puzzles
 	 */
-	public void giveRiddle(Puzzle p)
+	public static void giveRiddle(Puzzle p)
 	{
+		boolean check = false;
 		List<ArrayList<Puzzle>> list = p.getPuzzles();
 		Random rand = new Random();
-		int num = rand.nextInt(6);
-		System.out.println(list.size());
-		
+		int num = rand.nextInt(list.size());
+
 		ArrayList<Puzzle> puz = list.get(0);
 		String puzzle = puz.get(num).getPuzzle();
-		System.out.println(puzzle);
-	
-		System.out.println("Please type in your answer: ");
-		String answer1 = FileIO.readIn();
-		
-		if(checkAnswer(puzzle, answer1))
+
+		while(check != true)
 		{
-			System.out.println("Your answer was correct!!");
-			puz.remove(num);
-		}
-		
-		else
-		{
-			System.out.println("Your answer is not correct!");
+			
+			System.out.println("Please type in your answer: ");
+			String answer1 = FileIO.readIn();
+			
+			if(checkAnswer(puzzle, answer1))
+			{
+				System.out.println("Your answer was correct!!");
+				puz.remove(num);
+				check = true;
+			}
+
+			else
+			{
+				System.out.println("Your answer is not correct!");
+			}
 		}
 
 	}
-	
+
 }
