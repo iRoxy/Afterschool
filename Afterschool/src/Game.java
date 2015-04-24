@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class Game
@@ -258,8 +259,48 @@ public class Game
 		
 		else
 		{
-			System.out.println("\nSorry, I don't have riddles");
+			System.out.println("\nSorry, I'm just wasting your time! Nice talking to you though.");
 		}
 
 	}
+	
+	public void monsterBattle()
+	{
+		User player = getPlayer();
+		Monster monster = player.getCurrentRoom().getMonster();
+		boolean game = true;
+		while (game)
+		{
+		
+			System.out.println("inital user points: " + player.getPoints());
+			System.out.println("inital monster points: " + monster.getPoints());
+			
+			Random ran = new Random();
+			int range = ran.nextInt(20) + 30;
+
+			int damage = range;
+			
+			System.out.println("First hit: " + damage);
+			
+			monster.setPoints(monster.getPoints() -damage);
+			player.setPoints(player.getPoints() -damage);
+	
+
+			System.out.println("Current Health: " + player.getPoints());
+			
+			if(player.getPoints() <= 0)
+			{
+				game =  false;
+				exitGame();
+
+			}
+			
+			if(monster.getPoints() <= 0)
+			{
+				player.setPoints(player.getPoints() + 50);
+			}
+
+		}
+	}
 }
+
