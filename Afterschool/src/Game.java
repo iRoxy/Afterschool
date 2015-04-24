@@ -13,7 +13,6 @@ import java.util.ArrayList;
 
 public class Game
 {
-	private FileWriter writer;
 	private FileReader reader;
 	private BufferedReader bfread;
 	private File saveFile = new File("save.txt");
@@ -32,40 +31,8 @@ public class Game
 		this.overallRoom = overallRoom;
 		this.puzzle = puzzle;
 		
-		try 
-		{
-			writer = new FileWriter(saveFile);
-			reader = new FileReader(saveFile);
-			bfread = new BufferedReader(reader);
-			
-		} 
-		
-		catch (IOException e) 
-		{
-			e.printStackTrace();
-		}
 	}
 	
-	
-	/**Method: getWriter
-	 * Retrieves the FileWriter
-	 * @return fileWriter
-	 */
-	public FileWriter getWriter() 
-	{
-		return writer;
-	}
-
-
-	/**Method: setWriter()
-	 * Sets FileWriter
-	 * @param writer
-	 */
-	public void setWriter(FileWriter writer) 
-	{
-		this.writer = writer;
-	}
-
 
 	/**Method: getSaveFile
 	 * Retrieves a text file
@@ -175,8 +142,10 @@ public class Game
 	 */
 	public void saveGame(User user)
 	{
+		
 		try 
 		{
+			FileWriter writer = new FileWriter(saveFile);
 			PrintWriter out = new PrintWriter(saveFile);
 			out.print(user.toString());
 			out.close();
@@ -260,6 +229,11 @@ public class Game
 			saveGame(getPlayer());
 		}
 		
+		else if(input.equalsIgnoreCase("help"))
+		{
+			Help.howToPlay();
+		}
+		
 		else
 		{
 			System.out.println("Please enter the commands either: forward, back, exit, help or save");
@@ -279,16 +253,13 @@ public class Game
 		if(npc.isHasRiddle())
 		{
 			Puzzle.giveRiddle(puzzle);
+			npc.setHasRiddle(false);
 		}
 		
 		else
 		{
-
+			System.out.println("\nSorry, I don't have riddles");
 		}
 
 	}
-	
-
-
 }
-
