@@ -11,7 +11,6 @@ public class Puzzle
 
 	private String puzzle;
 	private String answer;
-	//private Map<String, String> puzzles;
 	private static List<ArrayList<Puzzle>> puzzles;
 
 
@@ -46,12 +45,18 @@ public class Puzzle
 	{
 		List<ArrayList<Puzzle>> list = new ArrayList<ArrayList<Puzzle>>();
 		List<Puzzle> puz = new ArrayList<Puzzle>();
-		puz.add(new Puzzle("Here is a puzzle1", "1"));
-		puz.add(new Puzzle("Here is a puzzle2", "2"));
-		puz.add(new Puzzle("Here is a puzzle3", "3"));
-		puz.add(new Puzzle("Here is a puzzle4", "4"));
-		puz.add(new Puzzle("Here is a puzzle5", "5"));
-		puz.add(new Puzzle("Here is a puzzle6", "6"));
+		puz.add(new Puzzle("What is brown, has a tail and head?", "penny"));
+		puz.add(new Puzzle("Poor people have it. Rich people need it. If you eat it you die. What is it?", "Nothing"));
+		puz.add(new Puzzle("What comes down but never goes up?", "Rain"));
+		puz.add(new Puzzle("I’m tall when I’m young and I’m short when I’m old. What am I?", "candle"));
+		puz.add(new Puzzle("A dad and his son were riding their bikes and crashed. Two ambulances came and took them to different hospitals. "
+				+ "The man’s son was in the operating room and the doctor said, "
+				+ "“I can’t operate on you. You’re my son. Who is the doctor", "mom"));
+		puz.add(new Puzzle("What travels around the world but stays in one spot?", "stamp"));
+		puz.add(new Puzzle("If I have it, I don’t share it. If I share it, I don’t have it. What is it?", "secret"));
+		puz.add(new Puzzle("What can you catch but not throw?", "cold"));
+		puz.add(new Puzzle("What starts with the letter “t”, is filled with “t” and ends in “t”?", "teapot"));
+		puz.add(new Puzzle(" What is so delicate that saying its name breaks it?", "Silence"));
 		list.add((ArrayList<Puzzle>) puz);
 
 
@@ -90,7 +95,7 @@ public class Puzzle
 	}
 
 
-	/**
+	/**Method: setPuzzles
 	 * This method sets the arraylist within a list
 	 * @param puzzles
 	 */
@@ -119,53 +124,6 @@ public class Puzzle
 		this.puzzle = puzzle;
 	}
 
-
-
-
-	/**Method: hashcode
-	 * Creates hashcodes for puzzle objects
-	 */
-	@Override
-	public int hashCode() 
-	{
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((puzzle == null) ? 0 : puzzle.hashCode());
-		result = prime * result + ((puzzles == null) ? 0 : puzzles.hashCode());
-		return result;
-	}
-
-	/**Method: equals
-	 *  Determines whether instances of puzzle objects 
-	 *  are equal to each other
-	 */
-	@Override
-	public boolean equals(Object obj) 
-	{
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Puzzle other = (Puzzle) obj;
-		if (puzzle == null) 
-		{
-			if (other.puzzle != null)
-				return false;
-		} 
-		else if (!puzzle.equals(other.puzzle))
-			return false;
-		if (puzzles == null) 
-		{
-			if (other.puzzles != null)
-				return false;
-		} 
-
-		else if (!puzzles.equals(other.puzzles))
-			return false;
-		return true;
-	}
 
 	/**Method: checkAnswer
 	 * This code checks the the answer given by the user
@@ -200,15 +158,17 @@ public class Puzzle
 		boolean check = false;
 		List<ArrayList<Puzzle>> list = p.getPuzzles();
 		Random rand = new Random();
-		int num = rand.nextInt(list.size());
-
 		ArrayList<Puzzle> puz = list.get(0);
+		int num = rand.nextInt(puz.size());
+		System.out.println("This is num of riddles: " + num);
+
+		
 		String puzzle = puz.get(num).getPuzzle();
 
 		while(check != true)
 		{
-			
-			System.out.println("Please type in your answer: ");
+			System.out.println("\n" + puzzle);
+			System.out.println("\nPlease type in your answer: ");
 			String answer1 = FileIO.readIn();
 			
 			if(checkAnswer(puzzle, answer1))
@@ -216,6 +176,12 @@ public class Puzzle
 				System.out.println("Your answer was correct!!");
 				puz.remove(num);
 				check = true;
+			}
+			
+			else if(answer1.equalsIgnoreCase("exit"))
+			{
+				System.out.println("Thanks for playing!");
+				Game.exitGame();
 			}
 
 			else
