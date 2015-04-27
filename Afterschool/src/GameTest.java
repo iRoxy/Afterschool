@@ -45,7 +45,8 @@ public class GameTest
 				//First check if there is a monster
 				if(game.getPlayer().getCurrentRoom().getMonster() != null)
 				{
-					game.monsterBattle();
+					if(!(game.getPlayer().getCurrentRoom().getMonster().getPoints() <= 0))
+						game.monsterBattle();
 				}
 				
 				//First check if there is a NPC
