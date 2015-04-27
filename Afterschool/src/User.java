@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 /**Class: MainUser
  * @author: Mustafa Kamara
  * @version 1.0
