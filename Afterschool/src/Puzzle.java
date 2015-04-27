@@ -160,8 +160,6 @@ public class Puzzle
 		Random rand = new Random();
 		ArrayList<Puzzle> puz = list.get(0);
 		int num = rand.nextInt(puz.size());
-		System.out.println("This is num of riddles: " + num);
-
 		
 		String puzzle = puz.get(num).getPuzzle();
 
