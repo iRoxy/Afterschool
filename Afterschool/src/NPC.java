@@ -13,6 +13,7 @@ public class NPC
 	 */
 	public NPC()
 	{
+		
 	}
 	
 	/**Method: NPC constructor
@@ -62,7 +63,12 @@ public class NPC
 		this.hasRiddle = hasRiddle;
 	}
 	
+	/**Method: talk
+	 * This method prints output to the user 
+	 */
+	public void talk()
+	{
+		System.out.println("\n" + "Welcome. My name is " + getName());
+	}	
 	
-
-
 }
