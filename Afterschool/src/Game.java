@@ -1,9 +1,8 @@
 /**
- * @author Raquel Lawrence
+ * @author Raquel Lawrence, Mustafa Kamara, Elisha Patterson
  */
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.FileReader;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
@@ -14,9 +13,9 @@ import java.util.Random;
 
 public class Game
 {
-	private FileReader reader;
-	private BufferedReader bfread;
+	
 	private File saveFile = new File("save.txt");
+	private BufferedReader bfread;
 	private User player;
 	private Room overallRoom;
 	private Puzzle puzzle;
@@ -133,7 +132,7 @@ public class Game
 	/**Method: exitGame
 	 * This method will stop the game
 	 */
-	public void exitGame()
+	public static void exitGame()
 	{
 		System.exit(0);
 	}
@@ -146,7 +145,6 @@ public class Game
 		
 		try 
 		{
-			FileWriter writer = new FileWriter(saveFile);
 			PrintWriter out = new PrintWriter(saveFile);
 			out.print(user.toString());
 			out.close();
@@ -167,6 +165,12 @@ public class Game
 		String line = null;
 		try 
 		{
+			FileReader reader = new FileReader(getSaveFile());
+			bfread = new BufferedReader(reader);
+			if((line = bfread.readLine()) ==null)
+			{
+				System.out.println("Sorry, but you don't have any saved files.");
+			}
 			while((line = bfread.readLine()) !=null)
 			{
 				System.out.print(line);
@@ -176,7 +180,6 @@ public class Game
 		
 		catch (IOException e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -217,17 +220,23 @@ public class Game
 		
 		else if(input.equalsIgnoreCase("exit"))
 		{
+			System.out.println("\n" + "Thanks for playing!");
 			exitGame();
 		}
 		
-		else if(input.equalsIgnoreCase("help"))
+		else if(input.equalsIgnoreCase("use"))
 		{
-			System.out.println("Hey, you went for help");
+			getPlayer().useItems();
 		}
 		
 		else if (input.equalsIgnoreCase("save"))
 		{
 			saveGame(getPlayer());
+		}
+		
+		else if(input.equalsIgnoreCase("search"))
+		{
+			giveReward();
 		}
 		
 		else if(input.equalsIgnoreCase("help"))
@@ -237,7 +246,7 @@ public class Game
 		
 		else
 		{
-			System.out.println("Please enter the commands either: forward, back, exit, help or save");
+			System.out.println("Please enter the commands either: 'forward', 'back', 'exit', 'help', 'search' 'use item' or 'save'");
 		}
 	}
 	
@@ -254,53 +263,63 @@ public class Game
 		if(npc.isHasRiddle())
 		{
 			Puzzle.giveRiddle(puzzle);
+			giveReward();
 			npc.setHasRiddle(false);
-		}
-		
-		else
-		{
-			System.out.println("\nSorry, I'm just wasting your time! Nice talking to you though.");
 		}
 
 	}
 	
+	/**Method: giveReward
+	 * Handles the scenario where if there is an item in a room
+	 * with an NPC, the NPC gives a the user the item
+	 */
+	public void giveReward()
+	{
+		Room currentRoom = getPlayer().getCurrentRoom();
+		if(currentRoom.getItem() != null)
+		{
+			ArrayList<Item> bag = getPlayer().getItems();
+			bag.add(currentRoom.getItem());
+			System.out.println("You have received an " + currentRoom.getItem().getName());
+		}
+	}
+	
+	/**Method: monsterBattle
+	 * This method handles the monster battle
+	 * dealing damage to both the user monster
+	 */
 	public void monsterBattle()
 	{
 		User player = getPlayer();
 		Monster monster = player.getCurrentRoom().getMonster();
-		boolean game = true;
-		while (game)
+		System.out.println("\nYou will now have to battle " + monster.getName() + "\n");
+		while (monster.getPoints() > 0)
 		{
-		
-			System.out.println("inital user points: " + player.getPoints());
-			System.out.println("inital monster points: " + monster.getPoints());
 			
 			Random ran = new Random();
-			int range = ran.nextInt(20) + 30;
+			int range = ran.nextInt(50 - 30 +1) + 30;
 
 			int damage = range;
 			
-			System.out.println("First hit: " + damage);
+			System.out.println("Amount of damage dealt: " + damage);
 			
 			monster.setPoints(monster.getPoints() -damage);
 			player.setPoints(player.getPoints() -damage);
 	
 
-			System.out.println("Current Health: " + player.getPoints());
+			System.out.println("Your Current Health: " + player.getPoints());
+			System.out.println("Monster's Health: " + monster.getPoints());
 			
-			if(player.getPoints() <= 0)
+			if(player.getPoints() <=0 )
 			{
-				game =  false;
+				System.out.println("Sorry, you lose!");
 				exitGame();
-
 			}
-			
-			if(monster.getPoints() <= 0)
-			{
-				player.setPoints(player.getPoints() + 50);
-			}
-
 		}
+		
+		System.out.println("\nYou have beaten: " + monster.getName());
+		player.setPoints(player.getPoints() + 50);
+		System.out.println("Your Current Health: " + player.getPoints());
+		giveReward();
 	}
 }
-
